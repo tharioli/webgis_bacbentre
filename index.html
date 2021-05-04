@@ -1,0 +1,399 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css">
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/popper.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<!-- <link rel="stylesheet" href="css/index.css"> -->
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+	<p>Tài liệu KTXH</p>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="data/snghintrng_2.js"></script>
+        <script src="data/RanhX_4.js"></script>
+        <script src="data/RanhHuyn_5.js"></script>
+        <script src="data/Cngtrnhcng_6.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:35, minZoom:11
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_EsriOcean_0');
+        map.getPane('pane_EsriOcean_0').style.zIndex = 400;
+        var layer_EsriOcean_0 = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_EsriOcean_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 3,
+            maxZoom: 30,
+            minNativeZoom: 0,
+            maxNativeZoom: 10
+        });
+        layer_EsriOcean_0;
+        map.addLayer(layer_EsriOcean_0);
+		map.createPane('pane_GoogleSatellite_0');
+        map.getPane('pane_GoogleSatellite_0').style.zIndex = 400;
+        var layer_GoogleSatellite_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
+            minZoom: 3,
+            maxZoom: 35,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_GoogleSatellite_0;
+        map.addLayer(layer_GoogleSatellite_0);
+		map.createPane('HTSDD_2015_0');
+        map.getPane('HTSDD_2015_0').style.zIndex = 405;
+        var img_OUTPUT_5 = 'data/HTSDD_2015_0.png';
+        var img_bounds_OUTPUT_5 = [[9.81240548393886,106.07528469189066],[10.404539576670293,107.02865917226275]];
+        var layer_OUTPUT_5 = new L.imageOverlay(img_OUTPUT_5,
+                                              img_bounds_OUTPUT_5,
+                                              {pane: 'HTSDD_2015_0'});
+        bounds_group.addLayer(layer_OUTPUT_5);
+        map.addLayer(layer_OUTPUT_5);
+        function pop_snghintrng_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+						<th scope="row">Tên đê</th>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+						<th scope="row">Layer</th>\
+                        <td colspan="2">' + (feature.properties['Layer'] !== null ? autolinker.link(feature.properties['Layer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+						<th scope="row">Hiện trạng thủy lợi</th>\
+                        <td colspan="2">' + (feature.properties['HTTL'] !== null ? autolinker.link(feature.properties['HTTL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+						<th scope="row">Tên đoạn</th>\
+                        <td colspan="2"><strong>Tendoan</strong><br />' + (feature.properties['Tendoan'] !== null ? autolinker.link(feature.properties['Tendoan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+						<th scope="row">Chiều dài</th>\
+                        <td colspan="2">' + (feature.properties['L_m'] !== null ? autolinker.link(feature.properties['L_m'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+						<th scope="row">Tuyến</th>\
+                        <td colspan="2">' + (feature.properties['Tuyen'] !== null ? autolinker.link(feature.properties['Tuyen'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+		}
+
+        function style_snghintrng_2_0() {
+            return {
+                pane: 'pane_snghintrng_2',
+                opacity: 1,
+                color: 'rgba(232,200,36,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        function style_snghintrng_2_1() {
+            return {
+                pane: 'pane_snghintrng_2',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_snghintrng_2');
+        map.getPane('pane_snghintrng_2').style.zIndex = 402;
+        map.getPane('pane_snghintrng_2').style['mix-blend-mode'] = 'normal';
+        var layer_snghintrng_2 = new L.geoJson.multiStyle(json_snghintrng_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_snghintrng_2',
+            layerName: 'layer_snghintrng_2',
+            pane: 'pane_snghintrng_2',
+            onEachFeature: pop_snghintrng_2,
+            styles: [style_snghintrng_2_0,style_snghintrng_2_1,]
+        });
+        bounds_group.addLayer(layer_snghintrng_2);
+        map.addLayer(layer_snghintrng_2);
+        function pop_RanhX_4(feature, layer) {}
+
+        function style_RanhX_4_0() {
+            return {
+                pane: 'pane_RanhX_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '10,5,1,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_RanhX_4');
+        map.getPane('pane_RanhX_4').style.zIndex = 404;
+        map.getPane('pane_RanhX_4').style['mix-blend-mode'] = 'normal';
+        var layer_RanhX_4 = new L.geoJson(json_RanhX_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_RanhX_4',
+            layerName: 'layer_RanhX_4',
+            pane: 'pane_RanhX_4',
+            onEachFeature: pop_RanhX_4,
+            style: style_RanhX_4_0,
+        });
+        bounds_group.addLayer(layer_RanhX_4);
+        map.addLayer(layer_RanhX_4);
+        function pop_RanhHuyn_5(feature, layer) {
+		var District_V = feature.properties['District_V'] !== null ? autolinker.link(feature.properties['District_V'].toLocaleString()) : '';
+		 var popupContent = '<table>\
+                    <tr>\
+						<th scope="row">Thuộc tỉnh</th>\
+                        <td colspan="2">' + (feature.properties['Province_V'] !== null ? autolinker.link(feature.properties['Province_V'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+						<th scope="row">Huyện</th>\
+                        <td><a href="excel/Châu Thành/Châu Thành.htm" target="blank">'+(feature.properties['District_V'] !== null ? autolinker.link(feature.properties['District_V'].toLocaleString()) : '')+'</a></td>\
+                    </tr>\
+                    <tr>\
+						<th scope="row">Diện tích</th>\
+                        <td colspan="2">' + (feature.properties['Area_ha'] !== null ? autolinker.link(feature.properties['Area_ha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+						<th scope="row">Dân số</th>\
+                        <td colspan="2">' + (feature.properties['Population'] !== null ? autolinker.link(feature.properties['Population'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+		}
+
+        function style_RanhHuyn_5_0() {
+            return {
+                pane: 'pane_RanhHuyn_5',
+                opacity: 1,
+                color: 'rgba(245,97,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        function style_RanhHuyn_5_1() {
+            return {
+                pane: 'pane_RanhHuyn_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '10,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_RanhHuyn_5');
+        map.getPane('pane_RanhHuyn_5').style.zIndex = 405;
+        map.getPane('pane_RanhHuyn_5').style['mix-blend-mode'] = 'normal';
+        var layer_RanhHuyn_5 = new L.geoJson.multiStyle(json_RanhHuyn_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_RanhHuyn_5',
+            layerName: 'layer_RanhHuyn_5',
+            pane: 'pane_RanhHuyn_5',
+            onEachFeature: pop_RanhHuyn_5,
+            styles: [style_RanhHuyn_5_0,style_RanhHuyn_5_1,]
+        });
+        bounds_group.addLayer(layer_RanhHuyn_5);
+        map.addLayer(layer_RanhHuyn_5);
+		
+		
+        function pop_Cngtrnhcng_6(feature, layer) {
+			var a = feature.properties['Ten'] !== null ? autolinker.link(feature.properties['Ten'].toLocaleString()) : '';
+			var b = feature.properties['Huyen'] !== null ? autolinker.link(feature.properties['Huyen'].toLocaleString()) : '';
+            var popupContent = '<div class="container mt-2">\
+					  <ul class="nav nav-tabs">\
+						<li class="nav-item">\
+						  <a class="nav-link active" data-toggle="tab" href="#home">Thông tin</a>\
+						</li>\
+						<li class="nav-item">\
+						  <a class="nav-link" data-toggle="tab" href="#menu1">Hình ảnh</a>\
+						</li>\
+					  </ul>\
+				  <div class="tab-content">\
+					<div id="home" class="container tab-pane active">\
+					<br>\
+						<table>\
+						<tr>\
+							<th scope="row">Tên cống:</th>\
+							<td><a href="images/'+a+'.jpg" target="blank">'+(feature.properties['Ten'] !== null ? autolinker.link(feature.properties['Ten'].toLocaleString()) : ' ')+'</a></td>\
+						</tr>\
+						<tr>\
+							<th scope="row">Thuộc Huyện:</th>\
+							<td><a href="excel/'+b+'/'+b+'.htm" target="blank">'+(feature.properties['Huyen'] !== null ? autolinker.link(feature.properties['Huyen'].toLocaleString()) : '')+'</a></td>\
+						</tr>\
+						<tr>\
+							<th scope="row">Thuộc dự án:</th>\
+							<td>' + (feature.properties['Duan'] !== null ? autolinker.link(feature.properties['Duan'].toLocaleString()) : ' ') + '</td>\
+						</tr>\
+						<tr>\
+							<th scope="row">Số cửa:</th>\
+							<td>' + (feature.properties['n_cua'] !== null ? autolinker.link(feature.properties['n_cua'].toLocaleString()) : ' ') + '</td>\
+						</tr>\
+						<tr>\
+							<th scope="row">B:</th>\
+							<td>' + (feature.properties['B_m'] !== null ? autolinker.link(feature.properties['B_m'].toLocaleString()) : ' ') + '</td>\
+						</tr>\
+						<tr>\
+							<th scope="row">Z:</th>\
+							<td>' + (feature.properties['Z_m'] !== null ? autolinker.link(feature.properties['Z_m'].toLocaleString()) : ' ') + '</td>\
+						</tr>\
+						<tr>\
+							<th scope="row">Loại:</th>\
+							<td>' + (feature.properties['Loai'] !== null ? autolinker.link(feature.properties['Loai'].toLocaleString()) : ' ') + '</td>\
+						</tr>\
+						<tr>\
+							<th scope="row">Tuyến</th>\
+							<td>' + (feature.properties['Tuyen'] !== null ? autolinker.link(feature.properties['Tuyen'].toLocaleString()) : ' ') + '</td>\
+						</tr>\
+					</table>\
+					</div>\
+					<div id="menu1" class="container tab-pane fade"><br>\
+					  <img src="images/'+a+'.jpg" width="250" height="300">\
+					</div>\
+				  </div>\
+				</div>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+		
+        function style_Cngtrnhcng_6_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_Cngtrnhcng_6rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_Cngtrnhcng_6',
+                shape: 'square',
+                radius: 4.0,
+                stroke: false,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(3,3,3,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Cngtrnhcng_6rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_Cngtrnhcng_6',
+                shape: 'square',
+                radius: 7.0,
+                stroke: false,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(23,10,11,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_Cngtrnhcng_6');
+        map.getPane('pane_Cngtrnhcng_6').style.zIndex = 406;
+        map.getPane('pane_Cngtrnhcng_6').style['mix-blend-mode'] = 'normal';
+        var layer_Cngtrnhcng_6 = new L.geoJson(json_Cngtrnhcng_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Cngtrnhcng_6',
+            layerName: 'layer_Cngtrnhcng_6',
+            pane: 'pane_Cngtrnhcng_6',
+            onEachFeature: pop_Cngtrnhcng_6,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_Cngtrnhcng_6_0(feature));
+            },
+        });
+        var cluster_Cngtrnhcng_6 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_Cngtrnhcng_6.addLayer(layer_Cngtrnhcng_6);
+
+        bounds_group.addLayer(layer_Cngtrnhcng_6);
+        cluster_Cngtrnhcng_6.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/RanhHuyn_5.png" /> Ranh Huyện': layer_RanhHuyn_5,'<img src="legend/RanhX_4.png" /> Ranh Xã': layer_RanhX_4,'<img src="legend/snghintrng_2.png" /> Đê sông hiện trạng': layer_snghintrng_2,'<img src="legend/Cngtrnhcng_6_Cốngto1.png" /></td><td>Công trình cống': cluster_Cngtrnhcng_6,'Hiện trạng sử dụng đất<br /><table><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấttrồnglúa0.png" /></td><td> Đất trồng lúa</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấttrồngcâyhàngnăm1.png" /></td><td>Đất trồng cây hàng năm</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấttrồngcâylâunăm2.png" /></td><td>Đất trồng cây lâu năm</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấtrừngsảnxuất3.png" /></td><td>Đất rừng sản xuất</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấtrừngphònghộ4.png" /></td><td>Đất rừng phòng hộ</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấtnuôitrồngthủysản5.png" /></td><td>Đất nuôi trồng thủy sản</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấtlàmmuối6.png" /></td><td>Đất làm muối</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấtnôngnghiệpkhác7.png" /></td><td>Đất nông nghiệp khác</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấtnhàở8.png" /></td><td>Đất nhà ở</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấtanninhquốcphòng9.png" /></td><td>Đất an ninh + quốc phòng</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấtphinôngnghiệp10.png" /></td><td>Đất phi nông nghiệp</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấtcómặtnướcvenbiển11.png" /></td><td>Đất có mặt nước ven biển</td></tr><tr><td style="text-align: center;"><img src="legend/HTSDD_2015_dadoiten_0_Đấtchưasửdụng12.png" /></td><td>Đất chưa sử dụng</td></tr></table>': layer_OUTPUT_5,"Google Satellite": layer_GoogleSatellite_0,"Esri Ocean": layer_EsriOcean_0},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_RanhHuyn_5.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['District_V'] !== null?String('<div style="color: #1d0e65; font-size: 8pt; font-weight: bold; font-family: \'Arial\', sans-serif;">' + layer.feature.properties['District_V']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_RanhHuyn_5'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_RanhHuyn_5]);
+        map.on("zoomend", function(){
+            resetLabels([layer_RanhHuyn_5]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_RanhHuyn_5]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_RanhHuyn_5]);
+        });
+		
+		
+        </script>
+    </body>
+</html>

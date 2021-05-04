@@ -1,0 +1,75 @@
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 87.6vh}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 2vh;
+      background-color: #e6e6e6;
+      height: 100%;
+	  width: 40vh;
+	  margin-left: 17vh;
+    }
+	.col8 {
+      background-color: #f2f2f2;
+	  height: 100%;
+	  width: 107vh;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color:#0066cc;
+      color: white;
+      padding: 0.5vh;
+	  text-align: center;
+	  margin-left: 17vh;
+	  margin-right: 17vh;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+	header {
+		padding: 1.8vh;
+		text-align: 20vh;
+		background: #0066cc;
+		color:#ffffff;
+		font-size: 3vh;
+		line-height: 1 ;
+		margin-left: 17vh;
+		margin-right: 17vh;
+	}
+
+	/*Document css*/
+	  .tableFixHead {
+       overflow-y: auto;
+       height: auto;
+	   padding: 0vh;
+	   background: white;
+      }
+	  .center{
+		margin-left: 0vh; 
+		margin-right: 0vh;
+	  }
+      .tableFixHead thead th {
+        position: sticky;
+        top: 0;
+      }
+      table {
+        border-collapse: collapse;
+        width: 103vh;
+      }
+      td {
+		text-align:left;
+        padding: 1vh 1vh;
+        border: 0.2vh solid #ccc;
+		background: white;
+      }
+      th {
+        background: #b3c6ff;
+		padding: 1.5vh 1.5vh;
+        border: 0.2vh solid #ccc;
+      }
